@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom'
 
 const AuthLayout = () => {
     return (
-        <section className='flex justify-between h-full'>
+        <section className='flex justify-between min-h-screen lg:h-screen'>
             <div className='flex-1 flexx '>
                 <Outlet />
             </div>

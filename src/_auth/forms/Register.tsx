@@ -14,9 +14,12 @@ import {
 import { Input } from '@/components/ui/input'
 import { registerValidation } from '@/lib/validations'
 import { Link } from 'react-router-dom'
+import { useRegisterUser } from '@/lib/react-query/queryAndMutaltion'
 
 const Register = () => {
-    // 1. Define your form.
+    const { mutateAsync: createUserAccount, isPending: isCreatingUserAccount } =
+        useRegisterUser()
+
     const form = useForm<z.infer<typeof registerValidation>>({
         resolver: zodResolver(registerValidation),
         defaultValues: {
@@ -28,8 +31,9 @@ const Register = () => {
     })
 
     // 2. Define a submit handler.
-    const onSubmit = (values: z.infer<typeof registerValidation>) => {
-        console.log(values)
+    const onSubmit = async (values: z.infer<typeof registerValidation>) => {
+        const userAccount = await createUserAccount(values)
+        console.log(userAccount)
     }
 
     return (
