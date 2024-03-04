@@ -1,4 +1,4 @@
-import { ID, Models } from 'appwrite'
+import { ID, Models, Query } from 'appwrite'
 import { account, appwriteConfig, avatars, databases } from './config'
 import { INewUser } from '../types'
 
@@ -7,7 +7,7 @@ export const registerRequest = async (userInfo: INewUser) => {
         const user = await account.create(
             ID.unique(),
             userInfo.email,
-            userInfo.name,
+            userInfo.password,
             userInfo.name
         )
         if (!user) throw Error
@@ -49,7 +49,7 @@ export const getAccount = async () => {
 }
 // set user in a session
 
-export const sessionUser = async ({
+export const loginRequest = async ({
     email,
     password,
 }: {
@@ -60,6 +60,43 @@ export const sessionUser = async ({
         const session = await account.createEmailSession(email, password)
         if (!session) throw Error
         return session
+    } catch (error) {
+        console.log(error)
+    }
+}
+// getLoggedUserInfo
+
+export const getLoggedUserInfo = async () => {
+    try {
+        const account = await getAccount()
+
+        if (!account) throw Error
+        const getUserInfo = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            [Query.equal('accountId', account.$id)]
+        )
+
+        if (!getUserInfo) throw Error
+        return getUserInfo.documents[0]
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
+// get all post
+
+export const getAllPost = async () => {
+    try {
+        const posts = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            [Query.orderDesc('$createdAt')]
+        )
+        if (!posts) throw new Error()
+
+        return posts
     } catch (error) {
         console.log(error)
     }

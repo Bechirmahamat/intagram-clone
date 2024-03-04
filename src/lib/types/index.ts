@@ -15,6 +15,6 @@ export type IContext = {
     user: IUser
     isLoading: boolean
     isAuthenticated: boolean
-    setIsAuthenticated: () => boolean
+    checkIsAuthenticated: () => boolean
     setIsLoading: () => boolean
 }

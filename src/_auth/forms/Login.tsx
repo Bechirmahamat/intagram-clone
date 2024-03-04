@@ -13,9 +13,21 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { loginValidation } from '@/lib/validations'
-import { Link } from 'react-router-dom'
+import { Link, redirect, useNavigate } from 'react-router-dom'
+import { useLoginUser } from '@/lib/react-query/queryAndMutaltion'
+import { toast } from 'react-toastify'
+import { Loader } from 'lucide-react'
+import { useUserContext } from '@/GlobalContext'
 
 const Login = () => {
+    const navigate = useNavigate()
+    const { checkIsAuthenticated } = useUserContext()
+    const {
+        mutateAsync: loginUser,
+        isPending: isLoging,
+        isError,
+        error,
+    } = useLoginUser()
     // 1. Define your form.
     const form = useForm<z.infer<typeof loginValidation>>({
         resolver: zodResolver(loginValidation),
@@ -26,8 +38,20 @@ const Login = () => {
     })
 
     // 2. Define a submit handler.
-    const onSubmit = (values: z.infer<typeof loginValidation>) => {
-        console.log(values)
+    const onSubmit = async (values: z.infer<typeof loginValidation>) => {
+        const loginRequest = await loginUser({
+            email: values.email,
+            password: values.password,
+        })
+        if (!loginRequest) {
+            return toast.error('Credentials does not match!')
+        }
+        if (await checkIsAuthenticated()) {
+            toast.success('welcome again!')
+            navigate('/')
+        } else {
+            return toast.error('something went wrong!')
+        }
     }
 
     return (
@@ -73,8 +97,8 @@ const Login = () => {
                         </FormItem>
                     )}
                 />
-                <Button type='submit' className='btn'>
-                    Submit
+                <Button type='submit' className='btn flexx' disabled={isLoging}>
+                    {isLoging ? <Loader /> : 'Login'}
                 </Button>
                 <div className='flex justify-end text-sm gap-2 w-full'>
                     <span>Don't Have Account?</span>

@@ -6,6 +6,20 @@
 .active img {
     
 } */
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-track {
+    background: #09090a;
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
