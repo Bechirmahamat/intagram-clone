@@ -299,7 +299,7 @@
     }
 }
 .active {
-    @apply bg-primary-500 rounded-lg;
+    @apply bg-dark-4 border-l-2 border-primary-500;
 }
 .active img {
     @apply invert-white;

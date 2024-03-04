@@ -101,3 +101,40 @@ export const getAllPost = async () => {
         console.log(error)
     }
 }
+
+// logout user
+export const logoutUser = async () => {
+    try {
+        const session = await account.deleteSessions()
+        if (!session) throw Error
+        return session
+    } catch (error) {
+        console.log(error)
+    }
+}
+// like a post
+
+export const likePost = async (postId: string, accountId: string) => {
+    try {
+        const like = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            postId
+        )
+        if (!like) throw Error
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const deleteLikePost = async (postId: string, accountId: string) => {
+    try {
+        const like = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            postId
+        )
+        if (!like) throw Error
+    } catch (error) {
+        console.log(error)
+    }
+}

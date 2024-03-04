@@ -37,7 +37,7 @@ const GlobalContext = ({ children }: { children: React.ReactNode }) => {
 
             if (accountInfo) {
                 setUser({
-                    id: accountInfo.$id,
+                    id: accountInfo.accountId,
                     name: accountInfo.name,
                     username: accountInfo.username,
                     bio: accountInfo.bio,
