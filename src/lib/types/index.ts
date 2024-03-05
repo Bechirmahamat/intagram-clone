@@ -6,6 +6,7 @@ export type INewUser = {
 }
 export type IUser = {
     id: string
+    accountId: string
     name: string
     username: string
     bio: string
@@ -16,5 +17,5 @@ export type IContext = {
     isLoading: boolean
     isAuthenticated: boolean
     checkIsAuthenticated: () => boolean
-    setIsLoading: () => boolean
+    logout: () => boolean
 }

@@ -114,26 +114,48 @@ export const logoutUser = async () => {
 }
 // like a post
 
-export const likePost = async (postId: string, accountId: string) => {
+export const likePost = async (postId: string, likesArray: string[]) => {
     try {
-        const like = await databases.getDocument(
+        const like = await databases.updateDocument(
             appwriteConfig.databaseId,
             appwriteConfig.postCollectionId,
-            postId
+            postId,
+            {
+                likes: likesArray,
+            }
         )
         if (!like) throw Error
+        return like
     } catch (error) {
         console.log(error)
     }
 }
-export const deleteLikePost = async (postId: string, accountId: string) => {
+export const savePost = async (postId: string, userId: string) => {
     try {
-        const like = await databases.getDocument(
+        const save = await databases.createDocument(
             appwriteConfig.databaseId,
-            appwriteConfig.postCollectionId,
-            postId
+            appwriteConfig.saveCollectionId,
+            ID.unique(),
+            {
+                user: userId,
+                post: postId,
+            }
         )
-        if (!like) throw Error
+        if (!save) throw Error
+        return save
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const deleteSave = async (saveId: string) => {
+    try {
+        const save = await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.saveCollectionId,
+            saveId
+        )
+        if (!save) throw Error
+        return save
     } catch (error) {
         console.log(error)
     }

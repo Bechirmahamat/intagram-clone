@@ -3,10 +3,10 @@ import { sidebarLinks } from '@/constants'
 import { Link, NavLink } from 'react-router-dom'
 
 const LeftSideBar = () => {
-    const { user } = useUserContext()
+    const { user, logout } = useUserContext()
 
     return (
-        <div className='flex w-full h-screen flex-col gap-4 px-4 py-4'>
+        <div className='flex sticky top-0 w-full h-screen flex-col gap-4 px-4 py-4'>
             <div>
                 <Link to='/'>
                     <img src='/assets/images/logo.svg' alt='logo' width={140} />
@@ -50,21 +50,15 @@ const LeftSideBar = () => {
             </ul>
 
             <div>
-                <Link to='/' className='flex gap-1 items-center'>
+                <button onClick={logout} className='flex gap-1 items-center'>
                     <img
                         src='assets/icons/logout.svg'
                         alt=''
                         className='w-7 h-7'
                     />
                     <span>Logout</span>
-                </Link>
+                </button>
             </div>
-            {/* <div className='flex justify-between w-full h-full items-center px-8'>
-                
-                <div className='flex gap-2'>
-                  
-                </div>
-            </div> */}
         </div>
     )
 }

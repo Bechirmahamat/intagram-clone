@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 const PostHeader = ({ post }: { post: Models.Document }) => {
     const { user } = useUserContext()
-    const canEdit = user.id === post.creator.accountId
+    const canEdit = user.id === post.creator.$id
     return (
         <div className='flex items-center  justify-between gap-2'>
             <div className='flex gap-2 items-center'>

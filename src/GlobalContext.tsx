@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 
 const initial_user = {
     id: '',
+    accountId: '',
     name: '',
     username: '',
     bio: '',
@@ -17,7 +18,7 @@ const default_state = {
     isAuthenticated: false,
     setIsAuthenticated: () => false as boolean,
     checkIsAuthenticated: () => false as boolean,
-    setIsLoading: () => false as boolean,
+    logout: () => false as boolean,
 }
 const AppContext = createContext<IContext>(default_state)
 
@@ -37,7 +38,8 @@ const GlobalContext = ({ children }: { children: React.ReactNode }) => {
 
             if (accountInfo) {
                 setUser({
-                    id: accountInfo.accountId,
+                    id: accountInfo.$id,
+                    accountId: accountInfo.accountId,
                     name: accountInfo.name,
                     username: accountInfo.username,
                     bio: accountInfo.bio,
@@ -66,13 +68,22 @@ const GlobalContext = ({ children }: { children: React.ReactNode }) => {
         }
         checkIsAuthenticated()
     }, [])
+    const logout = () => {
+        toast.success('Login out')
+        setTimeout(() => {
+            setIsAuthenticated(false)
+            localStorage.removeItem('cookieFallback')
+            navigate('/login')
+        }, 1000)
+        return true
+    }
     const values = {
         user,
         isLoading,
         isAuthenticated,
         setIsAuthenticated,
         checkIsAuthenticated,
-        setIsLoading,
+        logout,
     }
     return <AppContext.Provider value={values}>{children}</AppContext.Provider>
 }
