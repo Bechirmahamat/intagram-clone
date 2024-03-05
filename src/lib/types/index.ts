@@ -19,3 +19,10 @@ export type IContext = {
     checkIsAuthenticated: () => boolean
     logout: () => boolean
 }
+export type INewPost = {
+    caption: string
+    file: File[]
+    location: string
+    tags: string
+    creatorId: string
+}

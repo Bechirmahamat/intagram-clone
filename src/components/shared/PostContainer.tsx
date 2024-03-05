@@ -2,8 +2,6 @@ import { Models } from 'appwrite'
 import { PostFooter, PostHeader } from '.'
 
 const PostContainer = ({ posts }) => {
-    console.log(posts)
-
     return (
         <div className='mx-auto'>
             <h3 className=' text-xl mb-4'>Home Seed</h3>

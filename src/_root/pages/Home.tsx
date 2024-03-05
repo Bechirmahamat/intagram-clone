@@ -3,9 +3,9 @@ import { useGetAllPost } from '@/lib/react-query/queryAndMutaltion'
 import { Loader } from 'lucide-react'
 
 const Home = () => {
-    const { data: posts, isPending } = useGetAllPost()
+    const { data: posts, isLoading } = useGetAllPost()
 
-    if (isPending) {
+    if (isLoading) {
         return (
             <div className='flex items-center justify-between mt-5'>
                 <Loader />

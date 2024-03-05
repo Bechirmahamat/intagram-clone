@@ -316,3 +316,6 @@
 .link {
     @apply hover:text-indigo-800 hover:underline;
 }
+.bottomBar .active {
+    @apply border-l-0  bg-dark-2 !important;
+}

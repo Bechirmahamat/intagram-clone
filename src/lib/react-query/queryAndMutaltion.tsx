@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
+    createPost,
     deleteSave,
     getAllPost,
     getLoggedUserInfo,
@@ -9,7 +10,7 @@ import {
     savePost,
 } from '../appwrite/api'
 
-import { INewUser } from '../types'
+import { INewPost, INewUser } from '../types'
 import { toast } from 'react-toastify'
 import { QUERY_KEYS } from './queryKeys'
 export const useRegisterUser = () => {
@@ -124,6 +125,19 @@ export const useDeleteSave = () => {
             })
             queryClient.invalidateQueries({
                 queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+            })
+        },
+    })
+}
+
+//create a new post
+export const useCreatePost = () => {
+    const queryCLient = useQueryClient()
+    return useMutation({
+        mutationFn: (post: INewPost) => createPost(post),
+        onSuccess: (data) => {
+            queryCLient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_POSTS],
             })
         },
     })

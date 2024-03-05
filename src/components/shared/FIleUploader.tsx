@@ -15,7 +15,7 @@ const FIleUploader = ({ onChange }: any) => {
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: {
-            'image/*': ['svg', 'png', 'jpg', 'jpeg'],
+            'image/*': ['.svg', '.png', '.jpg', '.jpeg'],
         },
     })
     return (

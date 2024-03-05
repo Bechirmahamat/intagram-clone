@@ -6,7 +6,7 @@ const RootLayout = () => {
     return (
         <section className='h-screen lg:h-auto flex flex-col min-h-screen md:flex-row  justify-between'>
             <div>
-                <nav className='flex h-12 bg-dark-4 w-full sticky top-0  md:hidden'>
+                <nav className='flex h-14 bg-dark-2 w-full sticky top-0  md:hidden'>
                     <Topbar />
                 </nav>
                 <nav className='hidden w-72 h-full bg-dark-2 md:flex'>
@@ -21,7 +21,7 @@ const RootLayout = () => {
             </div>
 
             <div>
-                <footer className='flex sticky h-12 bg-dark-4 w-full bottom-0  md:hidden'>
+                <footer className='flex sticky h-14 bg-dark-2 w-full bottom-0  md:hidden'>
                     <BottomBar />
                 </footer>
             </div>
