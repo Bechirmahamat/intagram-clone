@@ -1,10 +1,9 @@
 const Loader = () => {
     return (
         <img
-            src='/assets/icons/loader.svg'
+            src='/assets/icons/loadin.svg'
             alt='loader'
-            width={12}
-            height={12}
+            className='w-8 h-8 object-cover'
         />
     )
 }

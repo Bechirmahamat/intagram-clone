@@ -230,7 +230,7 @@ export const getInfiniteExplore = async ({
     pageParam: string
 }) => {
     let lastId = pageParam || ''
-    console.log(lastId)
+    // console.log(lastId)
 
     try {
         let posts
@@ -238,17 +238,17 @@ export const getInfiniteExplore = async ({
             posts = await databases.listDocuments(
                 appwriteConfig.databaseId,
                 appwriteConfig.postCollectionId,
-                [Query.orderDesc('$updatedAt'), Query.limit(2)]
+                [Query.orderDesc('$updatedAt'), Query.limit(8)]
             )
         } else {
-            console.log('this line')
+            // console.log('this line')
 
             posts = await databases.listDocuments(
                 appwriteConfig.databaseId,
                 appwriteConfig.postCollectionId,
                 [
                     Query.orderDesc('$updatedAt'),
-                    Query.limit(2),
+                    Query.limit(8),
                     Query.cursorAfter(lastId),
                 ]
             )

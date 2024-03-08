@@ -57,12 +57,12 @@ const PostStat = ({ post }: { post: Models.Document }) => {
         }
     }
     return (
-        <div className='flex justify-between w-full py-2 px-4 bg-gradient-to-t from-dark-3 to-transparent'>
+        <div className='flex justify-between w-full py-2 px-4 bg-gradient-to-t rounded-b-xl from-dark-3 to-transparent'>
             <div className='flex items-center gap-2'>
                 <img
                     src={post.creator.imageUrl}
                     alt='creator'
-                    className='w-10 h-10 rounded-full shadow-sm'
+                    className='w-10 h-10 lg:h-8 lg:w-8 rounded-full shadow-sm'
                 />
                 <h3>{post.creator.name}</h3>
             </div>
@@ -75,8 +75,7 @@ const PostStat = ({ post }: { post: Models.Document }) => {
                                     ? '/assets/icons/liked.svg'
                                     : '/assets/icons/like.svg'
                             }
-                            width={24}
-                            height={24}
+                            className='w-6 h-6 object-contain'
                             alt='like'
                         />
                     </button>
@@ -88,7 +87,9 @@ const PostStat = ({ post }: { post: Models.Document }) => {
                         disabled={isDeletingLoading || isSavePostLoading}
                     >
                         {isDeletingLoading || isSavePostLoading ? (
-                            <Loader />
+                            <div className='w-6 h-8 grid place-items-center'>
+                                <Loader />
+                            </div>
                         ) : (
                             <img
                                 src={
@@ -96,8 +97,7 @@ const PostStat = ({ post }: { post: Models.Document }) => {
                                         ? '/assets/icons/saved.svg'
                                         : '/assets/icons/save.svg'
                                 }
-                                width={24}
-                                height={24}
+                                className='w-6 h-6 object-contain'
                                 alt='like'
                             />
                         )}

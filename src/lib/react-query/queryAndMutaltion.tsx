@@ -154,9 +154,13 @@ export const useGetInfiniteExplore = () => {
         queryKey: [QUERY_KEYS.GET_INFINITE_EXPLORE],
         queryFn: getInfiniteExplore,
         getNextPageParam: (lastPage, AllPage) => {
-            // console.log({ lastPage, AllPage })
-            const nextPage = lastPage[lastPage?.length - 1].$id || undefined
-            return nextPage
+            console.log({ lastPage, AllPage })
+            if (lastPage?.length > 0) {
+                const nextPage = lastPage[lastPage?.length - 1].$id || undefined
+                return nextPage
+            } else {
+                return undefined
+            }
         },
     })
 }

@@ -1,14 +1,13 @@
-import { PostContainer } from '@/components/shared'
+import { Loading, PostContainer } from '@/components/shared'
 import { useGetAllPost } from '@/lib/react-query/queryAndMutaltion'
-import { Loader } from 'lucide-react'
 
 const Home = () => {
     const { data: posts, isLoading } = useGetAllPost()
 
     if (isLoading) {
         return (
-            <div className='flex items-center justify-between mt-5'>
-                <Loader />
+            <div className='w-full h-96 grid place-items-center'>
+                <Loading />
             </div>
         )
     }
