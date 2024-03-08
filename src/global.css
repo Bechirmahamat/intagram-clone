@@ -319,3 +319,6 @@
 .bottomBar .active {
     @apply border-l-0  bg-dark-2 !important;
 }
+.background {
+    background: rgba(0, 0, 0, 0.2);
+}

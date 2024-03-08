@@ -1,5 +1,8 @@
-const GridPostContainer = ({ posts }) => {
-    return posts.map((post) => {
+import { Models } from 'appwrite'
+import { PostStat } from '.'
+
+const GridPostContainer = ({ posts }: { posts: [] }) => {
+    return posts.map((post: Models.Document) => {
         return (
             <li
                 key={post.$id}
@@ -11,6 +14,9 @@ const GridPostContainer = ({ posts }) => {
                         alt='post-image'
                         className='w-full object-cover h-full rounded-xl'
                     />
+                </div>
+                <div className='absolute bottom-0 w-full'>
+                    <PostStat post={post} />
                 </div>
             </li>
         )
