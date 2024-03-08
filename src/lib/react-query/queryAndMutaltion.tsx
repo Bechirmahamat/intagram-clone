@@ -1,8 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+    useInfiniteQuery,
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from '@tanstack/react-query'
 import {
     createPost,
     deleteSave,
     getAllPost,
+    getInfiniteExplore,
     getLoggedUserInfo,
     likePost,
     loginRequest,
@@ -139,6 +145,18 @@ export const useCreatePost = () => {
             queryCLient.invalidateQueries({
                 queryKey: [QUERY_KEYS.GET_POSTS],
             })
+        },
+    })
+}
+
+export const useGetInfiniteExplore = () => {
+    return useInfiniteQuery({
+        queryKey: [QUERY_KEYS.GET_INFINITE_EXPLORE],
+        queryFn: getInfiniteExplore,
+        getNextPageParam: (lastPage, AllPage) => {
+            // console.log({ lastPage, AllPage })
+            const nextPage = lastPage[lastPage?.length - 1].$id || undefined
+            return nextPage
         },
     })
 }

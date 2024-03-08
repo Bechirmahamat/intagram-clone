@@ -161,6 +161,16 @@ export const deleteSave = async (saveId: string) => {
     }
 }
 
+//delete an image in storage
+export const deleteFile = async (fileId: string) => {
+    try {
+        await storage.deleteFile(appwriteConfig.storageId, fileId)
+        return { status: 'ok' }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 // create a new post
 
 export const createPost = async (post: INewPost) => {
@@ -213,11 +223,42 @@ export const createPost = async (post: INewPost) => {
         console.log(error)
     }
 }
-export const deleteFile = async (fileId: string) => {
+
+export const getInfiniteExplore = async ({
+    pageParam,
+}: {
+    pageParam: string
+}) => {
+    let lastId = pageParam || ''
+    console.log(lastId)
+
     try {
-        await storage.deleteFile(appwriteConfig.storageId, fileId)
-        return { status: 'ok' }
+        let posts
+        if (!lastId) {
+            posts = await databases.listDocuments(
+                appwriteConfig.databaseId,
+                appwriteConfig.postCollectionId,
+                [Query.orderDesc('$updatedAt'), Query.limit(2)]
+            )
+        } else {
+            console.log('this line')
+
+            posts = await databases.listDocuments(
+                appwriteConfig.databaseId,
+                appwriteConfig.postCollectionId,
+                [
+                    Query.orderDesc('$updatedAt'),
+                    Query.limit(2),
+                    Query.cursorAfter(lastId),
+                ]
+            )
+        }
+        if (!posts) throw new Error()
+        // console.log(posts)
+
+        return posts.documents
     } catch (error) {
         console.log(error)
+        return null
     }
 }
