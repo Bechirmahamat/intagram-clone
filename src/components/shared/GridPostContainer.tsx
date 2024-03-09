@@ -6,7 +6,7 @@ const GridPostContainer = ({ posts }: { posts: [] }) => {
         return (
             <li
                 key={post.$id}
-                className='w-full h-[250px] sm:h-[200px] relative'
+                className='w-full h-screen sm:h-[280px] relative'
             >
                 <div className='w-full h-full'>
                     <img

@@ -1,22 +1,66 @@
-import { Loading, PostContainer } from '@/components/shared'
-import { useGetAllPost } from '@/lib/react-query/queryAndMutaltion'
+import { Loading, PostContainer, TopCreators } from '@/components/shared'
+import {
+    useGetAllPost,
+    useGetTopCreators,
+} from '@/lib/react-query/queryAndMutaltion'
+import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
 
 const Home = () => {
-    const { data: posts, isLoading } = useGetAllPost()
+    const { ref, inView } = useInView()
+    const { data: topCreators, isPending: isTopUserPending } =
+        useGetTopCreators()
+    console.log(topCreators)
 
-    if (isLoading) {
-        return (
-            <div className='w-full h-96 grid place-items-center'>
-                <Loading />
-            </div>
-        )
-    }
+    const {
+        data,
+        isPending: isPagePostPending,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+    } = useGetAllPost()
+    useEffect(() => {
+        if (inView && hasNextPage) {
+            fetchNextPage()
+        }
+    }, [inView, hasNextPage])
 
     return (
-        <div className='w-full flex justify-center lg:justify-between '>
-            <PostContainer posts={posts?.documents} />
+        <div className='w-full flex justify-center lg:justify-between  '>
+            <article className='mx-auto w-full flex-1 overflow-y-scroll  h-screen'>
+                {isPagePostPending ? (
+                    <div className='w-full h-96 grid place-items-center'>
+                        <Loading />
+                    </div>
+                ) : (
+                    <div className='w-full mx-auto'>
+                        <h3 className=' text-xl mb-4 mt-4'>Home Seed</h3>
+                        {data?.pages.map((posts, index) => {
+                            return (
+                                <PostContainer
+                                    key={index}
+                                    posts={posts || []}
+                                />
+                            )
+                        })}
 
-            <div className='hidden bg-dark-2 lg:block flex-1 max-w-[250px] xl:max-w-[270px] right-0'></div>
+                        {hasNextPage && isFetchingNextPage && <Loading />}
+                        <div ref={ref}></div>
+                    </div>
+                )}
+            </article>
+
+            <div className='hidden sticky top-5 lg:block  w-80 right-0 '>
+                {isTopUserPending ? (
+                    <>
+                        <Loading />
+                    </>
+                ) : (
+                    <>
+                        <TopCreators topCreators={topCreators || []} />
+                    </>
+                )}
+            </div>
         </div>
     )
 }

@@ -14,7 +14,7 @@ const RootLayout = () => {
                 </nav>
             </div>
 
-            <div className='flex-1  overflow-y-scroll'>
+            <div className='flex-1 '>
                 <div className='mx-8  '>
                     <Outlet />
                 </div>

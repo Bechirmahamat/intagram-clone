@@ -3,7 +3,7 @@ const Loading = () => {
         <img
             src='/assets/icons/loadin.svg'
             alt=''
-            className='h-12 w-12 object-cover'
+            className='h-12 w-12 object-cover mx-auto'
         />
     )
 }

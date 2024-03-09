@@ -87,16 +87,28 @@ export const getLoggedUserInfo = async () => {
 
 // get all post
 
-export const getAllPost = async () => {
+export const getAllPost = async ({ pageParam }: { pageParam: string }) => {
     try {
-        const posts = await databases.listDocuments(
-            appwriteConfig.databaseId,
-            appwriteConfig.postCollectionId,
-            [Query.orderDesc('$createdAt')]
-        )
-        if (!posts) throw new Error()
+        let posts
+        if (!pageParam) {
+            posts = await databases.listDocuments(
+                appwriteConfig.databaseId,
+                appwriteConfig.postCollectionId,
+                [Query.orderDesc('$createdAt'), Query.limit(6)]
+            )
+        } else {
+            posts = await databases.listDocuments(
+                appwriteConfig.databaseId,
+                appwriteConfig.postCollectionId,
+                [
+                    Query.orderDesc('$createdAt'),
+                    Query.limit(6),
+                    Query.cursorAfter(pageParam),
+                ]
+            )
+        }
 
-        return posts
+        return posts.documents
     } catch (error) {
         console.log(error)
     }
@@ -223,6 +235,7 @@ export const createPost = async (post: INewPost) => {
         console.log(error)
     }
 }
+// get infinite post in explore page
 
 export const getInfiniteExplore = async ({
     pageParam,
@@ -257,6 +270,23 @@ export const getInfiniteExplore = async ({
         // console.log(posts)
 
         return posts.documents
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
+// get top user
+
+export const getTopUser = async ($id: string) => {
+    try {
+        const topUser = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            [Query.notEqual('$id', $id), Query.limit(10)]
+        )
+        if (!topUser) throw new Error()
+        return topUser.documents
     } catch (error) {
         console.log(error)
         return null

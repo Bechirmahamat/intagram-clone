@@ -10,6 +10,7 @@ import {
     getAllPost,
     getInfiniteExplore,
     getLoggedUserInfo,
+    getTopUser,
     likePost,
     loginRequest,
     registerRequest,
@@ -48,9 +49,17 @@ export const useLoginUser = () => {
 // get all the products
 
 export const useGetAllPost = () => {
-    return useQuery({
+    return useInfiniteQuery({
         queryKey: [QUERY_KEYS.GET_POSTS],
-        queryFn: () => getAllPost(),
+        queryFn: getAllPost,
+        getNextPageParam: (lastPage, allPages) => {
+            if (lastPage.length > 0) {
+                const lastId = lastPage[lastPage.length - 1].$id
+                return lastId || ''
+            } else {
+                return undefined
+            }
+        },
     })
 }
 // getCurrentUser=
@@ -162,5 +171,14 @@ export const useGetInfiniteExplore = () => {
                 return undefined
             }
         },
+    })
+}
+
+// get top post
+
+export const useGetTopCreators = () => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_TOP_CREATORS],
+        queryFn: getTopUser,
     })
 }
