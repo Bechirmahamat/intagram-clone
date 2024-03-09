@@ -26,3 +26,4 @@ export type INewPost = {
     tags: string
     creatorId: string
 }
+export type IPageParam = { pageParam: string }

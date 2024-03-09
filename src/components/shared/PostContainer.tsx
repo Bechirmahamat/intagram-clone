@@ -22,14 +22,14 @@ const PostContainer = ({ posts }: { posts: Models.Document[] }) => {
                             </p>
                         </div>
 
-                        <div className='overflow-x-hidden'>
+                        <div className='w-full max-h-96 overflow-hidden'>
                             <img
                                 src={
                                     post.imageUrl ||
                                     '/assets/images/profile.png'
                                 }
                                 alt='post-image'
-                                className='w-full object-cover h-full'
+                                className='w-full  object-cover max-h-96 h-80'
                             />
                         </div>
 

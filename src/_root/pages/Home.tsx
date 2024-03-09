@@ -50,7 +50,7 @@ const Home = () => {
                 )}
             </article>
 
-            <div className='hidden sticky top-5 lg:block  w-80 right-0 '>
+            <div className='hidden sticky top-5 lg:block  w-80 right-0 overflow-y-scroll'>
                 {isTopUserPending ? (
                     <>
                         <Loading />

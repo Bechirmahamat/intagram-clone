@@ -22,7 +22,7 @@ const RootLayout = () => {
 
             <div>
                 <footer className='flex sticky h-14 bg-dark-2 w-full bottom-0  md:hidden'>
-                    {/* <BottomBar /> */}
+                    <BottomBar />
                 </footer>
             </div>
         </section>

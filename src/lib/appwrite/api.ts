@@ -1,6 +1,6 @@
 import { ID, Models, Query } from 'appwrite'
 import { account, appwriteConfig, avatars, databases, storage } from './config'
-import { INewPost, INewUser } from '../types'
+import { INewPost, INewUser, IPageParam } from '../types'
 
 export const registerRequest = async (userInfo: INewUser) => {
     try {
@@ -290,5 +290,39 @@ export const getTopUser = async ($id: string) => {
     } catch (error) {
         console.log(error)
         return null
+    }
+}
+
+//get all users
+
+export const getAllUsers = async ({ pageParam }: IPageParam) => {
+    let query: any = [Query.orderDesc('$createdAt'), Query.limit(6)]
+    if (pageParam) {
+        query.push(Query.cursorAfter(pageParam))
+    }
+    try {
+        const users = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            query
+        )
+        if (!users) throw new Error()
+        return users.documents
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getUserById = async (userId: string) => {
+    try {
+        const user = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            userId
+        )
+        if (!user) throw Error
+        return user
+    } catch (error) {
+        console.log(error)
     }
 }

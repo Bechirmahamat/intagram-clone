@@ -13,16 +13,16 @@ const Topbar = () => {
             <div className='flex gap-2'>
                 <button onClick={logout}>
                     <img
-                        src='assets/icons/logout.svg'
+                        src='/assets/icons/logout.svg'
                         alt=''
                         className='w-7 h-7'
                     />
                 </button>
-                <Link to='/'>
+                <Link to={`/profile/${user.id}`}>
                     <img
                         src={
                             user?.imageUrl ||
-                            'assets/icons/profile-placeholder.svg'
+                            '/assets/icons/profile-placeholder.svg'
                         }
                         alt='user-img'
                         className='rounded-full w-7 h-7'

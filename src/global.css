@@ -295,6 +295,9 @@
 .active {
     @apply bg-dark-4 border-l-2 border-primary-500;
 }
+.btns {
+    @apply px-3 py-[5px] rounded-md capitalize;
+}
 .active img {
     @apply invert-white;
 }

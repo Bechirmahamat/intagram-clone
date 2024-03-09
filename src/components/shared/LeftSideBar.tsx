@@ -13,11 +13,11 @@ const LeftSideBar = () => {
                 </Link>
             </div>
             <div className='mt-4 flex items-center gap-2'>
-                <Link to='/'>
+                <Link to={`/profile/${user.id}`}>
                     <img
                         src={
                             user?.imageUrl ||
-                            'assets/icons/profile-placeholder.svg'
+                            '/assets/icons/profile-placeholder.svg'
                         }
                         alt='user-img'
                         className='rounded-full w-10 h-10'
@@ -52,7 +52,7 @@ const LeftSideBar = () => {
             <div>
                 <button onClick={logout} className='flex gap-1 items-center'>
                     <img
-                        src='assets/icons/logout.svg'
+                        src='/assets/icons/logout.svg'
                         alt=''
                         className='w-7 h-7'
                     />

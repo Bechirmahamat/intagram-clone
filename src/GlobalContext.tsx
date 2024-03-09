@@ -27,6 +27,15 @@ const GlobalContext = ({ children }: { children: React.ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [user, setUser] = useState<IUser>(initial_user)
+    useEffect(() => {
+        if (
+            localStorage.getItem('cookieFallback') === '[]' ||
+            localStorage.getItem('cookieFallback') === null
+        ) {
+            navigate('/login')
+        }
+        checkIsAuthenticated()
+    }, [])
     const checkIsAuthenticated = async () => {
         try {
             const accountInfo = await getLoggedUserInfo()
@@ -59,15 +68,7 @@ const GlobalContext = ({ children }: { children: React.ReactNode }) => {
             setIsLoading(false)
         }
     }
-    useEffect(() => {
-        if (
-            localStorage.getItem('cookieFallback') === '[]' ||
-            localStorage.getItem('cookieFallback') === null
-        ) {
-            navigate('/login')
-        }
-        checkIsAuthenticated()
-    }, [])
+
     const logout = () => {
         toast.success('Login out')
         setTimeout(() => {
@@ -85,6 +86,7 @@ const GlobalContext = ({ children }: { children: React.ReactNode }) => {
         checkIsAuthenticated,
         logout,
     }
+
     return <AppContext.Provider value={values}>{children}</AppContext.Provider>
 }
 export default GlobalContext

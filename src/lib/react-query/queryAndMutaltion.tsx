@@ -8,9 +8,11 @@ import {
     createPost,
     deleteSave,
     getAllPost,
+    getAllUsers,
     getInfiniteExplore,
     getLoggedUserInfo,
     getTopUser,
+    getUserById,
     likePost,
     loginRequest,
     registerRequest,
@@ -20,6 +22,7 @@ import {
 import { INewPost, INewUser } from '../types'
 import { toast } from 'react-toastify'
 import { QUERY_KEYS } from './queryKeys'
+import { Models } from 'appwrite'
 export const useRegisterUser = () => {
     return useMutation({
         mutationFn: (user: INewUser) => registerRequest(user),
@@ -180,5 +183,31 @@ export const useGetTopCreators = () => {
     return useQuery({
         queryKey: [QUERY_KEYS.GET_TOP_CREATORS],
         queryFn: getTopUser,
+    })
+}
+
+// get all user
+
+export const useGetAllUser = () => {
+    return useInfiniteQuery({
+        queryKey: [QUERY_KEYS.GET_ALL_USERS],
+        queryFn: getAllUsers,
+        initialPageParam: '',
+        getNextPageParam: (lastPage: Models.Document[]) => {
+            if (lastPage.length > 0) {
+                const lastId = lastPage[lastPage.length - 1].$id
+                return lastId || ''
+            } else {
+                return undefined
+            }
+        },
+    })
+}
+
+export const UseGetUserById = (userId: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_USER_BY_ID],
+        queryFn: () => getUserById(userId),
+        enabled: !!userId,
     })
 }
