@@ -39,6 +39,8 @@ const GlobalContext = ({ children }: { children: React.ReactNode }) => {
     const checkIsAuthenticated = async () => {
         try {
             const accountInfo = await getLoggedUserInfo()
+            console.log(accountInfo)
+
             if (!accountInfo) {
                 localStorage.removeItem('cookieFallback')
                 navigate('/login')

@@ -1,15 +1,26 @@
 import { useUserContext } from '@/GlobalContext'
 import { Loading } from '@/components/shared'
 import { Button } from '@/components/ui/button'
-import { UseGetUserById } from '@/lib/react-query/queryAndMutaltion'
+import {
+    UseGetUserById,
+    useFollowAUser,
+} from '@/lib/react-query/queryAndMutaltion'
 import { Link, useParams } from 'react-router-dom'
 
 const Profile = () => {
     const { id } = useParams()
 
     const { data, error, isError, isPending } = UseGetUserById(id || '')
-    const { user } = useUserContext()
 
+    const { user } = useUserContext()
+    const { mutateAsync: followSetup } = useFollowAUser()
+    // console.log(user)
+    const handleFollow = () => {
+        const follow = followSetup({
+            followingId: id ? id : '',
+            userId: user.id,
+        })
+    }
     if (isPending) {
         return (
             <div className='w-full mt-16'>
@@ -70,7 +81,10 @@ const Profile = () => {
                                 </Link>
                             ) : (
                                 <div className='flex gap-1 items-center'>
-                                    <button className='btns bg-primary-600'>
+                                    <button
+                                        className='btns bg-primary-600'
+                                        onClick={handleFollow}
+                                    >
                                         Follow
                                     </button>
                                     <button className='btns text-dark-2 bg-light-2'>
@@ -80,8 +94,22 @@ const Profile = () => {
                             )}
                         </div>
                     </div>
-                    <div className=''>
-                        
+                    {/* followers and folowing */}
+                    <div className='flex justify-between my-4'>
+                        <p className='flex flex-wrap'>
+                            <span className='text-sm text-light-3'>
+                                {data?.followers.length}
+                            </span>
+                            <span className='text-sm text-light-3'>
+                                followers
+                            </span>
+                        </p>
+                    </div>
+                    {/* bio */}
+                    <div className='my-6'>
+                        <p>For developers,By Developers </p>
+                        <p className='text-sm'> ()web Development</p>
+                        <p className='text-sm'> software engineer</p>
                     </div>
                 </div>
             </div>

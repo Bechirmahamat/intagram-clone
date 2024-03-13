@@ -7,6 +7,10 @@ export const appwriteConfig = {
     userCollectionId: import.meta.env.VITE_APPWRITE_USERS_COLLECTION_ID,
     postCollectionId: import.meta.env.VITE_APPWRITE_POSTS_COLLECTION_ID,
     saveCollectionId: import.meta.env.VITE_APPWRITE_SAVES_COLLECTION_ID,
+    followersCollectionId: import.meta.env
+        .VITE_APPWRITE_FOLLOWERS_COLLECTION_ID,
+    followingsCollectionId: import.meta.env
+        .VITE_APPWRITE_FOLLOWINGS_COLLECTION_ID,
 }
 const client = new Client()
 client.setProject(appwriteConfig.projectId)

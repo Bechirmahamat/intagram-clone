@@ -62,6 +62,7 @@ export const loginRequest = async ({
         return session
     } catch (error) {
         console.log(error)
+        // return error
     }
 }
 // getLoggedUserInfo
@@ -322,6 +323,26 @@ export const getUserById = async (userId: string) => {
         )
         if (!user) throw Error
         return user
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const followAUser = async (followingId: string, userId: string) => {
+    try {
+        const followee = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.followersCollectionId,
+            ID.unique(),
+            {
+                followedId: userId,
+                userId: followingId,
+            }
+        )
+        if (!followee) {
+            throw Error
+        }
+
+        return followee
     } catch (error) {
         console.log(error)
     }

@@ -4,6 +4,9 @@ import { useGetAllUser } from '@/lib/react-query/queryAndMutaltion'
 const AllUser = () => {
     const { data, isFetchingNextPage, fetchNextPage, isPending, hasNextPage } =
         useGetAllUser()
+
+    console.log(data)
+
     return (
         <div className='my-5'>
             <h3 className='flex  items-center gap-2 text-xl font-semibold'>

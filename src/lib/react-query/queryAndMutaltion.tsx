@@ -7,6 +7,7 @@ import {
 import {
     createPost,
     deleteSave,
+    followAUser,
     getAllPost,
     getAllUsers,
     getInfiniteExplore,
@@ -209,5 +210,29 @@ export const UseGetUserById = (userId: string) => {
         queryKey: [QUERY_KEYS.GET_USER_BY_ID],
         queryFn: () => getUserById(userId),
         enabled: !!userId,
+    })
+}
+
+export const useFollowAUser = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({
+            followingId,
+            userId,
+        }: {
+            followingId: string
+            userId: string
+        }) => followAUser(followingId, userId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_ALL_USERS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_USER_BY_ID],
+            })
+        },
     })
 }
