@@ -236,3 +236,10 @@ export const useFollowAUser = () => {
         },
     })
 }
+
+export const useGetPostsByUserId = (creatorId: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_POSTS_USER_BY_ID],
+        queryFn: () => getPostsByUserId(creatorId),
+    })
+}

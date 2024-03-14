@@ -1,18 +1,20 @@
 import { useUserContext } from '@/GlobalContext'
-import { Loading } from '@/components/shared'
+import { Loading, PostsTabs } from '@/components/shared'
 import { Button } from '@/components/ui/button'
 import {
     UseGetUserById,
     useFollowAUser,
 } from '@/lib/react-query/queryAndMutaltion'
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 const Profile = () => {
     const { id } = useParams()
-
-    const { data, error, isError, isPending } = UseGetUserById(id || '')
-
     const { user } = useUserContext()
+    const { data, error, isError, isPending } = UseGetUserById(id || '')
+    const [followers, setFollowers] = useState(data?.followers.length || 0)
+    const [followings, setFollowings] = useState(data?.followers.length || 0)
+
     const { mutateAsync: followSetup } = useFollowAUser()
     // console.log(user)
     const handleFollow = () => {
@@ -20,6 +22,7 @@ const Profile = () => {
             followingId: id ? id : '',
             userId: user.id,
         })
+        setFollowers(followers + 1)
     }
     if (isPending) {
         return (
@@ -40,11 +43,14 @@ const Profile = () => {
     }
 
     return (
-        <div className='flex flex-col w-full gap-4 mb-4 mt-10'>
+        <div
+            style={{ width: '100%' }}
+            className='flex flex-col  gap-4 mb-4 mt-10 overflow-scroll h-full'
+        >
             {/* profile header */}
-            <div className='flex gap-4 lg:gap-6'>
+            <div className='flex  gap-4 lg:gap-6 '>
                 {/* profile image */}
-                <div>
+                <div className='flex w-16 h-16 lg:w-28 lg:h-28'>
                     <img
                         src={
                             data?.imageUrl ||
@@ -55,7 +61,7 @@ const Profile = () => {
                     />
                 </div>
 
-                <div className=''>
+                <div className='overflow-hidden flex-1 w-full'>
                     {/* name and buttons */}
                     <div className='flex w-full  gap-6'>
                         <div>
@@ -95,13 +101,27 @@ const Profile = () => {
                         </div>
                     </div>
                     {/* followers and folowing */}
-                    <div className='flex justify-between my-4'>
-                        <p className='flex flex-wrap'>
-                            <span className='text-sm text-light-3'>
-                                {data?.followers.length}
+                    <div className='flex gap-4 capitalize   my-4'>
+                        <p className='flex gap-2 flex-wrap'>
+                            <span className='text-md text-primary-600'>
+                                {data?.posts?.length}
                             </span>
-                            <span className='text-sm text-light-3'>
+                            <span className='text-md text-light-3'>posts</span>
+                        </p>
+                        <p className='flex gap-2 flex-wrap'>
+                            <span className='text-md text-primary-600'>
+                                {followers}
+                            </span>
+                            <span className='text-md text-light-3'>
                                 followers
+                            </span>
+                        </p>
+                        <p className='flex gap-2 flex-wrap'>
+                            <span className='text-md text-primary-600'>
+                                {followings}
+                            </span>
+                            <span className='text-md text-light-3'>
+                                followings
                             </span>
                         </p>
                     </div>
@@ -111,7 +131,22 @@ const Profile = () => {
                         <p className='text-sm'> ()web Development</p>
                         <p className='text-sm'> software engineer</p>
                     </div>
+                    {/* status */}
+                    <div className='my-4 flex gap-4 overflow-x-scroll w-full scrollBar'>
+                        <div className='w-16 overflow-hidden p-1 h-16 flex items-center justify-center rounded-full  relative'>
+                            <img
+                                src='/assets/images/profile.png'
+                                alt='status'
+                                className='rounded-full  w-full h-full object-cover'
+                            />
+                            <div className='absolute border-2 border-primary-600 w-full h-full z-12 top-0 left-0 rounded-full'></div>
+                        </div>
+                    </div>
                 </div>
+                {/* buttons tabs */}
+            </div>
+            <div className='w-full'>
+                <PostsTabs user={data || {}} />
             </div>
         </div>
     )
