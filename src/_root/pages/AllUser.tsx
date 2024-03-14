@@ -5,7 +5,7 @@ const AllUser = () => {
     const { data, isFetchingNextPage, fetchNextPage, isPending, hasNextPage } =
         useGetAllUser()
 
-    console.log(data)
+    // console.log(data)
 
     return (
         <div className='my-5'>

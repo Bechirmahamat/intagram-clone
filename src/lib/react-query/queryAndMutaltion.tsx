@@ -207,7 +207,7 @@ export const useGetAllUser = () => {
 
 export const UseGetUserById = (userId: string) => {
     return useQuery({
-        queryKey: [QUERY_KEYS.GET_USER_BY_ID],
+        queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
         queryFn: () => getUserById(userId),
         enabled: !!userId,
     })
@@ -223,7 +223,7 @@ export const useFollowAUser = () => {
             followingId: string
             userId: string
         }) => followAUser(followingId, userId),
-        onSuccess: () => {
+        onSuccess: (data) => {
             queryClient.invalidateQueries({
                 queryKey: [QUERY_KEYS.GET_ALL_USERS],
             })
@@ -231,15 +231,15 @@ export const useFollowAUser = () => {
                 queryKey: [QUERY_KEYS.GET_CURRENT_USER],
             })
             queryClient.invalidateQueries({
-                queryKey: [QUERY_KEYS.GET_USER_BY_ID],
+                queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.userId.$id],
             })
         },
     })
 }
 
-export const useGetPostsByUserId = (creatorId: string) => {
-    return useQuery({
-        queryKey: [QUERY_KEYS.GET_POSTS_USER_BY_ID],
-        queryFn: () => getPostsByUserId(creatorId),
-    })
-}
+// export const useGetPostsByUserId = (creatorId: string) => {
+//     return useQuery({
+//         queryKey: [QUERY_KEYS.GET_POSTS_USER_BY_ID],
+//         queryFn: () => getPostsByUserId(creatorId),
+//     })
+// }

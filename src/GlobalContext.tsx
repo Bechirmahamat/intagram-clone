@@ -3,6 +3,7 @@ import { IContext, IUser } from './lib/types'
 import { toast } from 'react-toastify'
 import { getLoggedUserInfo } from './lib/appwrite/api'
 import { useNavigate } from 'react-router-dom'
+import { Models } from 'appwrite'
 
 const initial_user = {
     id: '',
@@ -11,6 +12,8 @@ const initial_user = {
     username: '',
     bio: '',
     imageUrl: '',
+    following: [],
+    followers: [],
 }
 const default_state = {
     user: initial_user,
@@ -39,7 +42,7 @@ const GlobalContext = ({ children }: { children: React.ReactNode }) => {
     const checkIsAuthenticated = async () => {
         try {
             const accountInfo = await getLoggedUserInfo()
-            console.log(accountInfo)
+            // console.log(accountInfo)
 
             if (!accountInfo) {
                 localStorage.removeItem('cookieFallback')
@@ -55,6 +58,12 @@ const GlobalContext = ({ children }: { children: React.ReactNode }) => {
                     username: accountInfo.username,
                     bio: accountInfo.bio,
                     imageUrl: accountInfo.imageUrl,
+                    following: accountInfo.followings.map(
+                        (account: Models.Document) => account.userId.$id
+                    ),
+                    followers: accountInfo.followers.map(
+                        (account: Models.Document) => account.followedId.$id
+                    ),
                 })
                 setIsAuthenticated(true)
                 return true

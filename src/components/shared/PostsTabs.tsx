@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 const PostsTabs = ({ user }: { user: {} }) => {
     const [activeTab, setActiveTab] = useState('posts') // Set initial state
-
+    const [postLength, setPostLength] = useState(0)
     const handleTabClick = (newActiveTab: string) => {
         setActiveTab(newActiveTab)
     }
@@ -44,21 +44,40 @@ const PostsTabs = ({ user }: { user: {} }) => {
                     Reels
                 </TabsTrigger>
             </TabsList>
-            <TabsContent
-                value='posts'
-                className='border grid md:grid-cols-2 gap-6  lg:grid-cols-3 w-full  rounded-3xl border-dark-4 p-6'
-            >
-                {user.posts.map((post) => {
-                    return (
-                        <img
-                            src={post.imageUrl}
-                            alt='post'
-                            className='w-full h-96 lg:h-80  object-cover rounded-lg'
-                        />
-                    )
-                })}
-            </TabsContent>
-            <TabsContent value='reels'>Change your reels here.</TabsContent>
+            {activeTab === 'posts' && (
+                <TabsContent
+                    value='posts'
+                    className='border grid md:grid-cols-2 gap-6  lg:grid-cols-3 w-full  rounded-3xl border-dark-4 p-6'
+                >
+                    {user?.posts.length < 1 && (
+                        <div className=''>
+                            <p className='text-left text-sm text-light-3 font-semibold'>
+                                No posts yet
+                            </p>
+                        </div>
+                    )}
+                    {user?.posts.map((post) => {
+                        return (
+                            <img
+                                key={post.$id}
+                                src={post.imageUrl}
+                                alt='post'
+                                className='w-full h-96 lg:h-80  object-cover rounded-lg'
+                            />
+                        )
+                    })}
+                </TabsContent>
+            )}
+            {activeTab === 'reels' && (
+                <TabsContent
+                    value='reels'
+                    className='border grid md:grid-cols-2 gap-6  lg:grid-cols-3 w-full  rounded-3xl border-dark-4 p-6'
+                >
+                    <p className='text-left text-sm text-light-3 font-semibold'>
+                        No Reels Yet
+                    </p>
+                </TabsContent>
+            )}
         </Tabs>
     )
 }

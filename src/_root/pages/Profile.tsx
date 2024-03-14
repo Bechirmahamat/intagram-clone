@@ -5,26 +5,35 @@ import {
     UseGetUserById,
     useFollowAUser,
 } from '@/lib/react-query/queryAndMutaltion'
-import { useState } from 'react'
+import { Models } from 'appwrite'
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 const Profile = () => {
     const { id } = useParams()
-    const { user } = useUserContext()
+    const { user, isLoading } = useUserContext()
     const { data, error, isError, isPending } = UseGetUserById(id || '')
-    const [followers, setFollowers] = useState(data?.followers.length || 0)
-    const [followings, setFollowings] = useState(data?.followers.length || 0)
 
-    const { mutateAsync: followSetup } = useFollowAUser()
-    // console.log(user)
+    const [followers, setFollowers] = useState(0)
+    const [followings, setFollowings] = useState(0)
+    const isFollowed = !!user?.following.find(
+        (account: string) => account === id
+    )
+
+    const { mutateAsync: followSetup, isPending: FollowingLoader } =
+        useFollowAUser()
+
+    useEffect(() => {
+        setFollowers(data?.followers.length)
+        setFollowings(data?.followings.length)
+    }, [data, FollowingLoader])
     const handleFollow = () => {
         const follow = followSetup({
             followingId: id ? id : '',
             userId: user.id,
         })
-        setFollowers(followers + 1)
     }
-    if (isPending) {
+    if (isPending && isLoading) {
         return (
             <div className='w-full mt-16'>
                 <Loading />
@@ -87,12 +96,18 @@ const Profile = () => {
                                 </Link>
                             ) : (
                                 <div className='flex gap-1 items-center'>
-                                    <button
-                                        className='btns bg-primary-600'
-                                        onClick={handleFollow}
-                                    >
-                                        Follow
-                                    </button>
+                                    {isFollowed ? (
+                                        <button className='btns bg-dark-1 border border-dark-4'>
+                                            Followed
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className='btns bg-primary-600'
+                                            onClick={handleFollow}
+                                        >
+                                            Follow
+                                        </button>
+                                    )}
                                     <button className='btns text-dark-2 bg-light-2'>
                                         Message
                                     </button>

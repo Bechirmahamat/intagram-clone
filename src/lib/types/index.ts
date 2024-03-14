@@ -11,6 +11,8 @@ export type IUser = {
     username: string
     bio: string
     imageUrl: string
+    following: []
+    followers: []
 }
 export type IContext = {
     user: IUser
